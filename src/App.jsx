@@ -2,7 +2,9 @@ import React from 'react'
 import Search from './components/Search'
 import Spinner from './components/Spinner'
 import MovieCard from './components/MovieCard'
+import Hero from './components/Hero'
 import { useEffect, useState } from 'react'
+import { useDebounce } from 'react-use'
 
 const API_BASE_URL = "https://api.themoviedb.org/3";
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
@@ -18,14 +20,22 @@ function App() {
   const [search, setSearch] = useState('');
   const [errorMessage, setErrorMessage] = useState(null);
   const [movies, setMovies] = useState([]);
+  const [topMovies, setTopMovies] = useState([]);
   const [loading, setLoading] = useState(false);
+  //Debounce the search input to prevent multiple requests until the user stops typing
+  const [debouncedSearch, setDebouncedSearch] = useState('');
 
-  const fetchMovies = async () => {
+  //Use the useDebounce hook to debounce the search input by waiting 500ms before updating the search
+  useDebounce(() => {
+    setDebouncedSearch(search);
+  }, 500, [search]);
+
+  const fetchMovies = async (query = '') => {
     setLoading(true); //Set loading to true to show the loading spinner
     setErrorMessage(null); //Clear any previous error messages
 
     try {
-      const endpoint = `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`
+      const endpoint = query ? `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}` : `${API_BASE_URL}/discover/movie?include_adult=false&sort_by=popularity.desc`;
       const response = await fetch(endpoint, API_OPTIONS);
 
       //Parse the response data
@@ -40,6 +50,10 @@ function App() {
       }
       //Set the movies state clear loading state
       setMovies(data.results);
+      // Store top movies for hero section (only when not searching)
+      if (!query) {
+        setTopMovies(data.results);
+      }
       setLoading(false);
     } catch (error) {
       console.error('Error fetching movies:', error);
@@ -49,20 +63,19 @@ function App() {
     }
   }
   useEffect(() => {
-    fetchMovies();
-
-  }, []);
+    fetchMovies(debouncedSearch);
+  }, [debouncedSearch]);
   return (
     <main>
       <div className="pattern" />
       <div className="wrapper">
         <header>
-          <img src="./hero.png" alt="Hero-Image" />
+          <Hero topMovies={topMovies} />
           <h1>Discover the Top <span className='text-gradient'>movies</span> Currently Trending</h1>
           <Search searchTerm={search} setSearchTerm={setSearch} />
         </header>
         <section className='all-movies'>
-          <h2 classNAme='mt-[40px]'>All Movies</h2>
+          <h2 className='mt-[40px]'>All Movies</h2>
           {loading ? (
             <Spinner />
           ) : errorMessage ? (

@@ -46,6 +46,34 @@
   header img {
     @apply w-full max-w-lg h-auto object-contain mx-auto drop-shadow-md;
   }
+
+  .hero-movies {
+    @apply flex items-center justify-center relative w-full max-w-4xl mx-auto mb-8 h-[400px] sm:h-[500px];
+    perspective: 1000px;
+  }
+
+  .hero-movie-poster {
+    @apply absolute transition-all duration-500 ease-out;
+    transform-origin: center center;
+  }
+
+  .hero-movie-poster:hover {
+    @apply z-50;
+  }
+
+  .hero-poster-image {
+    @apply w-[200px] sm:w-[260px] h-auto rounded-xl shadow-2xl;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.1);
+    filter: brightness(0.95);
+    transition: transform 0.3s ease, filter 0.3s ease, box-shadow 0.3s ease;
+    transform-origin: center center;
+  }
+
+  .hero-movie-poster:hover .hero-poster-image {
+    transform: scale(1.15);
+    filter: brightness(1.1);
+    box-shadow: 0 35px 70px -12px rgba(0, 0, 0, 0.9), 0 0 0 2px rgba(214, 199, 255, 0.3);
+  }
 }
 
 @layer components {
