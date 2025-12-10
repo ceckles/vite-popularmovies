@@ -184,48 +184,46 @@ npm run build
 
 The `dist` folder will contain the production-ready files.
 
-### Deploy to GitHub Pages
+### Deploy to Vercel
 
-This project is configured for automatic deployment to GitHub Pages using GitHub Actions.
+Vercel is the recommended deployment platform for this project.
 
-#### Setup Steps:
+#### Quick Setup:
 
-1. **Enable GitHub Pages**:
-   - Go to your repository Settings → Pages
-   - Under "Source", select "GitHub Actions"
+1. **Push your code to GitHub** (if not already done)
 
-2. **Add Secrets**:
-   - Go to Settings → Secrets and variables → Actions
-   - Add the following repository secrets:
+2. **Import to Vercel**:
+   - Go to [vercel.com](https://vercel.com) and sign in
+   - Click "Add New" → "Project"
+   - Import your GitHub repository
+
+3. **Configure Environment Variables**:
+   - In the Vercel project settings, go to "Environment Variables"
+   - Add the following variables:
      - `VITE_TMDB_API_KEY`
      - `VITE_APPWRITE_PROJECT_ID`
      - `VITE_APPWRITE_DATABASE_ID`
      - `VITE_APPWRITE_COLLECTION_ID`
      - `VITE_APPWRITE_ENDPOINT`
 
-3. **Update Base Path** (if needed):
-   - If deploying to `username.github.io/repo-name`, the base path is already configured as `/repo-name/`
-   - If deploying to a custom domain or root (`username.github.io`), set the `VITE_BASE_PATH` environment variable to `/` in your GitHub Actions secrets
-   - Or update `vite.config.js` directly to change the default base path
-
 4. **Deploy**:
-   - Push to the `main` branch
-   - GitHub Actions will automatically build and deploy
-   - Your site will be available at `https://username.github.io/vite-react-rmdb/`
+   - Click "Deploy"
+   - Vercel will automatically build and deploy your app
+   - Your site will be live at `https://your-project.vercel.app`
 
-#### Manual Deployment:
+#### Automatic Deployments:
 
-```bash
-npm run build
-# Then push the dist folder to the gh-pages branch
-```
+- Every push to `main` branch will trigger a new deployment
+- Pull requests will create preview deployments automatically
 
-### Deploy to Vercel/Netlify
+### Deploy to Netlify
 
 1. Push your code to GitHub
-2. Import the project in Vercel/Netlify
-3. Add environment variables in the platform settings
-4. Deploy!
+2. Go to [netlify.com](https://netlify.com) and sign in
+3. Click "Add new site" → "Import an existing project"
+4. Connect your GitHub repository
+5. Add environment variables in Site settings → Environment variables
+6. Deploy!
 
 
 ## 🤝 Contributing
