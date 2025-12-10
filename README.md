@@ -184,6 +184,42 @@ npm run build
 
 The `dist` folder will contain the production-ready files.
 
+### Deploy to GitHub Pages
+
+This project is configured for automatic deployment to GitHub Pages using GitHub Actions.
+
+#### Setup Steps:
+
+1. **Enable GitHub Pages**:
+   - Go to your repository Settings → Pages
+   - Under "Source", select "GitHub Actions"
+
+2. **Add Secrets**:
+   - Go to Settings → Secrets and variables → Actions
+   - Add the following repository secrets:
+     - `VITE_TMDB_API_KEY`
+     - `VITE_APPWRITE_PROJECT_ID`
+     - `VITE_APPWRITE_DATABASE_ID`
+     - `VITE_APPWRITE_COLLECTION_ID`
+     - `VITE_APPWRITE_ENDPOINT`
+
+3. **Update Base Path** (if needed):
+   - If deploying to `username.github.io/repo-name`, the base path is already configured as `/repo-name/`
+   - If deploying to a custom domain or root (`username.github.io`), set the `VITE_BASE_PATH` environment variable to `/` in your GitHub Actions secrets
+   - Or update `vite.config.js` directly to change the default base path
+
+4. **Deploy**:
+   - Push to the `main` branch
+   - GitHub Actions will automatically build and deploy
+   - Your site will be available at `https://username.github.io/vite-react-rmdb/`
+
+#### Manual Deployment:
+
+```bash
+npm run build
+# Then push the dist folder to the gh-pages branch
+```
+
 ### Deploy to Vercel/Netlify
 
 1. Push your code to GitHub
@@ -191,14 +227,8 @@ The `dist` folder will contain the production-ready files.
 3. Add environment variables in the platform settings
 4. Deploy!
 
-## 📄 License
-
-This project is private and proprietary.
 
 ## 🤝 Contributing
 
 This is a private project. Contributions are not currently accepted.
 
----
-
-Made with ❤️ using React, Vite, and Appwrite
